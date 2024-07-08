@@ -1,0 +1,20 @@
+nav {
+    &>ul {
+        list-style-type: none;
+        display: flex;
+        flex-direction: row;
+        padding: 0px;
+
+        :not(:last-child) {
+            margin-right: 10px;
+        }
+    }
+}
+
+.active {
+    color: orange;
+}
+
+.active:hover {
+    color: orange !important;
+}

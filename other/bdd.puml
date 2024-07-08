@@ -1,0 +1,76 @@
+@startuml
+left to right direction
+skinparam roundcorner 5
+skinparam linetype ortho
+skinparam shadowing false
+skinparam handwritten false
+skinparam class {
+    BackgroundColor white
+    ArrowColor #2688d4
+    BorderColor #2688d4
+}
+
+!define type(x) <color:#3a9583>x</color>
+
+!define column(x, t) <color:#efefef><&media-record></color> x: type(t)
+!define clone(name) entity name << (C, lightgreen) >>
+!define table(name) entity name << (T, #00bbff) >>
+
+!define attribut(x) <color:#858194><< x >></color>
+!define ai attribut(AI)
+!define fk attribut(FK)
+
+!define primary_key(x) <b><color:#b8861b><&key></color> x</b>
+!define primary_key_id primary_key(id): type(Int) ai
+!define foreign_key(x, t) <u><color:#aaaaaa><&key></color> x: type(t) fk </u>
+!define foreign_key_id(x) foreign_key(x, Int)
+
+!define int(name) column(name, Int)
+!define float(name) column(name, Float)
+!define string(name) column(name, String)
+!define bool(name) column(name, Boolean)
+!define datetime(name) column(name, DateTime)
+!define date(name) column(name, Date)
+!define enum(name) column(name, Enum)
+
+
+
+table( products ) {
+    primary_key_id
+
+    string( name )
+    enum( category )
+    string( description )
+}
+
+table( suppliers ) {
+    primary_key_id
+
+    string( name )
+}
+
+
+table( materials ) {
+    primary_key_id
+
+    string( name )
+    string( description )
+    foreign_key_id( supplier_id )
+}
+
+table( products_materials ) {
+    primary_key_id
+
+    foreign_key_id( product_id )
+    foreign_key_id( material_id )
+}
+
+
+
+suppliers "1" -up- "1.N" materials
+suppliers -right[hidden]- products
+
+products_materials "1" -left- materials
+products_materials "1.N" -down- "1.N" products
+
+@enduml

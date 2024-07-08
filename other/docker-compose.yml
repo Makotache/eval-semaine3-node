@@ -1,0 +1,34 @@
+version: "3"
+services:
+  db:
+    image: mysql
+    container_name: db_evalnodes3
+    #    restart: always
+    volumes:
+      - db-data:/var/lib/mysql
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+      DATABASE: evalnodes3
+    networks:
+      - dev
+
+  phpmyadmin:
+    image: phpmyadmin
+    container_name: phpmyadmin_evalnodes3
+    #    restart: always
+    depends_on:
+      - db
+    ports:
+      - 8088:80
+    environment:
+      PMA_HOST: db_evalnodes3
+      UPLOAD_LIMIT: 64M
+    networks:
+      - dev
+
+networks:
+  dev:
+
+
+volumes:
+  db-data:
