@@ -1,46 +1,39 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
 
-export const pastriesApiSlice = createApi({
-    reducerPath: "pastriesApi",
-    baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:3001/api" }),
-    tagTypes: ["pastries"],
+
+const API_URL = import.meta.env.VITE_API_URL;
+
+export const suppliersApiSlice = createApi({
+    reducerPath: "suppliersApi",
+    baseQuery: fetchBaseQuery({ baseUrl: API_URL }),
+    tagTypes: ["suppliers"],
     endpoints: (builder) => ({
-        getPastries: builder.query({
-            query: () => ({
-                url: "/pastries",
-                method: "get",
-                credentials: "include"
-            }),
-            providesTags: ["pastries"]
+        getSuppliers: builder.query({
+            query: () => "/suppliers/all"
         }),
-        addPastry: builder.mutation({
+        addSupplier: builder.mutation({
             query: (data) => ({
-                url: "/pastrie",
+                url: "/suppliers/add",
                 method: "post",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
                 body: data,
                 credentials: "include"
             }),
-            invalidatesTags: ["pastries"]
+            invalidatesTags: ["suppliers"]
         }),
-        modifyPastry: builder.mutation({
-            query: (data) => ({
-                url: "/pastrie/" + data.id,
+        updateSupplier: builder.mutation({
+            query: (data) =>
+            ({
+                url: "/suppliers/update",
                 method: "put",
                 body: data,
                 credentials: "include"
             }),
-            invalidatesTags: ["pastries"]
+            invalidatesTags: ["suppliers"]
         }),
-        deletePastry: builder.mutation({
-            query: (id) => ({
-                url: "/pastrie/" + id,
-                method: "delete",
-                credentials: "include"
-            }),
-            invalidatesTags: ["pastries"]
-        })
-
     })
 });
 
-export const { useGetPastriesQuery, useAddPastryMutation, useModifyPastryMutation, useDeletePastryMutation } = pastriesApiSlice;
+export const { useGetSuppliersQuery, useAddSupplierMutation, useUpdateSupplierMutation } = suppliersApiSlice;

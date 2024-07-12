@@ -9,6 +9,9 @@ services:
     environment:
       MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
       DATABASE: evalnodes3
+    ports:
+      - 3306:3306
+
     networks:
       - dev
 

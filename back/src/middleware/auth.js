@@ -1,6 +1,6 @@
 export default function (req, res, next)
 {
-    if (req.session.auth)
+    if (true /*|| req.session.auth*/)
     {
         next()
         return

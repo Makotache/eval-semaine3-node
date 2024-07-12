@@ -1,42 +1,53 @@
-import './App.css'
+import './App.css';
+import "./styles/general.scss"
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import ListProducts from "./components/routes/listProducts/ListProducts"
-import ListSuppliers from "./components/routes/listSuppliers/ListSuppliers"
-import { useState } from 'react';
-import MiddlewareRoute from "./components/layout/MiddlewareRoute"
+import ListProducts from "./routes/listProducts/ListProducts";
+import ListSuppliers from "./routes/listSuppliers/ListSuppliers";
 import NavBar from './components/NavBar';
-import Login from './components/routes/Login';
-import Logout from './components/routes/Logout';
-import Dashboard from './components/routes/dashboard';
-import DetailProducts from './components/routes/DetailProducts';
+import Login from './routes/Login';
+import Logout from './routes/Logout';
+import Dashboard from './routes/Dashboard';
+import NotFound from './components/NotFound';
+import { useDispatch, useSelector } from 'react-redux';
+import NotAuthorize from './components/NotAuthorize';
+import { useEffect, useState } from 'react';
+import { init } from './redux/slices/authSlice';
+import ListMaterials from './routes/listMaterials/ListMaterial';
 
 function App()
 {
-	const [me] = useMeMutation();
-	const [user, setUser] = useState(null);
+	const dispatch = useDispatch()
+	dispatch(init())
+	//useEffect(() => {  }, [])
 
-	useEffect(() => 
+	const [update, setUpdate] = useState(false)
+	const updateNavBar = () =>
 	{
-		const _me = async () =>
-		{
-			const me_res = await me();
-			console.log("me_res", me_res);
-			setUser(me_res.data != undefined ? me_res.data : null);
-		}
-		_me();
-	}, []);
+		setUpdate(!update);
+	}
+	useEffect(() => { }, [update])
+
+	const MiddlewareRoute = (path, element, needToBeLogged = true) =>
+	{
+		const logged = useSelector(store => store.auth.isLogging);
+
+		return (
+			<Route path={path} element={(needToBeLogged ? (logged ? element : <NotAuthorize />) : element)} />
+		);
+	}
 
 	return (
 		<>
-			<NavBar user={user} />
+			<NavBar />
+			<hr />
 			<BrowserRouter>
 				<Routes>
 					<Route path="" element={<ListProducts />} />
-					<Route path="detail/:id" element={<DetailProducts />} />
-					<MiddlewareRoute path="login" element={<Login setUser={setUser} />} />
-					<MiddlewareRoute path="logout" userLogged={false} element={<Logout />} />
-					<MiddlewareRoute path="dashboard" element={<Dashboard />} />
-					<MiddlewareRoute path="list-suppliers" element={<ListSuppliers />} />
+					<Route path="list-suppliers" element={<ListSuppliers />} />
+					<Route path="list-materials" element={<ListMaterials />} />
+					{MiddlewareRoute("login", <Login updateNavBar={updateNavBar} />, false)}
+					{MiddlewareRoute("logout", <Logout updateNavBar={updateNavBar} />)}
+					{MiddlewareRoute("dashboard", <Dashboard />)}
 					<Route path="*" element={<NotFound />} />
 				</Routes>
 			</BrowserRouter>

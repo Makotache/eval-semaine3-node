@@ -1,10 +1,19 @@
 import express from 'express'
-import userRoutes from "./userRoutes.js";
-import homeRoutes from "./homeRoutes.js";
+import materialsRoutes from "./materialsRoutes.js";
+import productsRoutes from "./productsRoutes.js";
+import suppliersRoutes from "./suppliersRoutes.js";
 
 const router = express.Router()
 
-router.use('/', homeRoutes)
-router.use('/user', userRoutes)
+const tmp = (req, res, next) =>
+{
+    console.log(req.originalUrl);
+    next();
+    return;
+}
 
-export default router
+router.use('/materials', tmp, materialsRoutes)
+router.use('/products', tmp, productsRoutes)
+router.use('/suppliers', tmp, suppliersRoutes)
+
+export default router;

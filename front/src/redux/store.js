@@ -1,18 +1,20 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { gameApiSlice } from "./slices/gameApiSlice";
-import { authApiSlice } from "./slices/authApiSlice";
-import { pastriesApiSlice } from "./slices/pastriesApiSlice";
+import { authSlice } from "./slices/authSlice";
+import { productsApiSlice } from "./slices/productsApiSlice";
+import { suppliersApiSlice } from "./slices/suppliersApiSlice";
+import { materialsApiSlice } from "./slices/materialsApiSlice";
 
 export default configureStore({
     reducer: {
-        gameApi: gameApiSlice.reducer,
-        authApi: authApiSlice.reducer,
-        pastriesApi: pastriesApiSlice.reducer
+        auth: authSlice.reducer,
+        materialsApi: materialsApiSlice.reducer,
+        productsApi: productsApiSlice.reducer,
+        suppliersApi: suppliersApiSlice.reducer
     },
     middleware: (getDefaultMidlleware) =>
         getDefaultMidlleware().concat(
-            gameApiSlice.middleware,
-            authApiSlice.middleware,
-            pastriesApiSlice.middleware
+            materialsApiSlice.middleware,
+            productsApiSlice.middleware,
+            suppliersApiSlice.middleware
         )
 });
