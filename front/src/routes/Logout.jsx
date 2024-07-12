@@ -1,7 +1,8 @@
 import { useEffect } from "react";
-import { logout } from "../redux/slices/authSlice";
+import { logout as logoutSlice } from "../redux/slices/authSlice";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
+import { logout } from "../services/auth";
 
 const Logout = ({ updateNavBar }) =>
 {
@@ -10,9 +11,15 @@ const Logout = ({ updateNavBar }) =>
 
     useEffect(() => 
     {
-        dispatch(logout());
-        updateNavBar();
-        navigate("/");
+        const logout_ = async () => 
+        {
+            logout();
+            dispatch(logoutSlice());
+            //updateNavBar();
+            navigate("/");
+        };
+
+        logout_();
     }, []);
 
     return (<></>);

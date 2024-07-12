@@ -8,9 +8,6 @@ ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
 const Dashboard = () =>
 {
     const { data, isLoading, isSuccess } = useGetStatisticsQuery();
-    //byProductsTypes_countMaterialsUsedByProduct
-    //forEachProducts_totalMaterialsUsed
-    //forEachProducts_countMaterialsUsedByProduct
 
     let totalMaterialsUsed;
     let countMaterialsUsedByProduct;
@@ -37,20 +34,12 @@ const Dashboard = () =>
         };
 
         countMaterialsUsedByProduct = {
-            labels: data.byProductsTypes_countMaterialsUsedByProduct.map(countMatProd => countMatProd.countProduct),
+            labels: data.byProductsTypes_countMaterialsUsedByProduct.map(countMatProd => countMatProd.countProduct + " produit(s)"),
             datasets: [
                 {
-                    label: 'par type de produits',
                     data: data.byProductsTypes_countMaterialsUsedByProduct.map(countMatProd => countMatProd.countMaterial),
                     backgroundColor: 'rgba(75, 192, 192, 0.2)',
                     borderColor: 'rgba(75, 192, 192, 1)',
-                    borderWidth: 1,
-                },
-                {
-                    label: 'pour chaque produits',
-                    data: data.forEachProducts_countMaterialsUsedByProduct.map(countMatProd => countMatProd.countMaterial),
-                    backgroundColor: 'rgba(255, 159, 64, 0.2)',
-                    borderColor: 'rgb(255, 159, 64)',
                     borderWidth: 1,
                 }
             ],

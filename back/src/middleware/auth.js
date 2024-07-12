@@ -1,9 +1,9 @@
 export default function (req, res, next)
 {
-    if (true /*|| req.session.auth*/)
+    if (req.session.auth)
     {
-        next()
-        return
+        next();
+        return;
     }
-    res.redirect('/')
+    res.status(401);
 }

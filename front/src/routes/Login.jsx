@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { login } from "../redux/slices/authSlice";
+import { login as loginSlice } from "../redux/slices/authSlice";
 import { useDispatch } from "react-redux";
+import { useLoginMutation } from "../redux/slices/authApiSlice";
 
 const Login = ({ updateNavBar }) =>
 {
@@ -9,6 +10,7 @@ const Login = ({ updateNavBar }) =>
     const navigate = useNavigate();
     const [password, setPassword] = useState("");
     const [error, setError] = useState(false);
+    const [login] = useLoginMutation();
 
     const onChangeHandler = (e) => 
     {
@@ -18,10 +20,10 @@ const Login = ({ updateNavBar }) =>
     const onSumbitHandler = async (e) => 
     {
         e.preventDefault();
-
-        if (password == import.meta.env.VITE_PASSWORD)
+        const res = await login({ password });
+        if (res.data.status == 200)
         {
-            dispatch(login());
+            dispatch(loginSlice());
             updateNavBar();
             navigate("/");
         }

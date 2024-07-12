@@ -9,7 +9,10 @@ export const suppliersApiSlice = createApi({
     tagTypes: ["suppliers"],
     endpoints: (builder) => ({
         getSuppliers: builder.query({
-            query: () => "/suppliers/all"
+            query: () => ({
+                url: "/suppliers/all",
+                credentials: "include"
+            })
         }),
         addSupplier: builder.mutation({
             query: (data) => ({

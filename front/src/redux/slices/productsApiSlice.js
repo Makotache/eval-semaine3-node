@@ -9,7 +9,11 @@ export const productsApiSlice = createApi({
     tagTypes: ["products"],
     endpoints: (builder) => ({
         getProducts: builder.query({
-            query: () => "/products/all"
+            query: () =>
+            ({
+                url: "/products/all",
+                credentials: "include"
+            })
         }),
         addProduct: builder.mutation({
             query: (data) => ({

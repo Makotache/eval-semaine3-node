@@ -13,19 +13,29 @@ import NotAuthorize from './components/NotAuthorize';
 import { useEffect, useState } from 'react';
 import { init } from './redux/slices/authSlice';
 import ListMaterials from './routes/listMaterials/ListMaterial';
+import { me } from './services/auth';
 
 function App()
 {
 	const dispatch = useDispatch()
-	dispatch(init())
-	//useEffect(() => {  }, [])
 
 	const [update, setUpdate] = useState(false)
 	const updateNavBar = () =>
 	{
 		setUpdate(!update);
 	}
-	useEffect(() => { }, [update])
+
+	useEffect(() =>
+	{
+		const getMe = async () =>
+		{
+			const res = await me();
+			console.log("data => ", res);
+			dispatch(init(res.data));
+		}
+		getMe();
+
+	}, [update])
 
 	const MiddlewareRoute = (path, element, needToBeLogged = true) =>
 	{

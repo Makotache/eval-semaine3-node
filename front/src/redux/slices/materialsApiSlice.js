@@ -9,7 +9,10 @@ export const materialsApiSlice = createApi({
     tagTypes: ["materials"],
     endpoints: (builder) => ({
         getMaterials: builder.query({
-            query: () => "/materials/all"
+            query: () => ({
+                url: "/materials/all",
+                credentials: "include"
+            })
         }),
         addMaterial: builder.mutation({
             query: (data) => ({
@@ -34,7 +37,10 @@ export const materialsApiSlice = createApi({
             invalidatesTags: ["materials"]
         }),
         getStatistics: builder.query({
-            query: () => "/materials/statistics"
+            query: () => ({
+                url: "/materials/statistics",
+                credentials: "include"
+            })
         }),
 
     })

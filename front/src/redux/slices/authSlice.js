@@ -7,19 +7,18 @@ export const authSlice = createSlice({
         isLogging: false
     },
     reducers: {
-        init: (state) =>
+        init: (state, action) =>
         {
-            state.isLogging = localStorage.getItem("logging") != null;
+            state.isLogging = action.payload == true;
+            console.log("state.isLogging =>", state.isLogging)
         },
         login: state =>
         {
             state.isLogging = true;
-            localStorage.setItem("logging", "logged");
         },
         logout: (state) =>
         {
             state.isLogging = false;
-            localStorage.removeItem("logging");
         },
     }
 });

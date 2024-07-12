@@ -1,7 +1,15 @@
 /* styles.css */
 .chart-container {
-    width: 600px;
-    height: 400px;
+    width: 700px;
+    height: 500px;
     position: relative;
     margin: auto;
+
+    canvas {
+        margin-top: 20px;
+        border: 1px #555fcf solid;
+        border-radius: 10px;
+        padding: 10px;
+        background-color: #3d3d3d;
+    }
 }

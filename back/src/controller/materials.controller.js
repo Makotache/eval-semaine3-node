@@ -74,26 +74,12 @@ export async function statistics(req, res)
 			});
 		})
 
-
-		const forEachProducts_countMaterialsUsedByProduct = []
-		products.forEach(product => 
-		{
-			const countMaterial = products_materials.filter(product_material => product_material.product_id == product.id).length;
-			const index_countMatProd = forEachProducts_countMaterialsUsedByProduct.findIndex(countMatProd => countMatProd.countMaterial == countMaterial);
-
-			if (index_countMatProd == -1)
-			{ forEachProducts_countMaterialsUsedByProduct.push({ countMaterial, countProduct: product.count }); }
-			else
-			{ forEachProducts_countMaterialsUsedByProduct[index_countMatProd].countProduct += product.count; }
-		})
-
 		const result = {
 			//pour chaque "types" de produit
 			byProductsTypes_totalMaterialsUsed,// []{name, count} 
 			byProductsTypes_countMaterialsUsedByProduct,// []{countMaterial, countProduct}
 			//pour chaque produits
 			forEachProducts_totalMaterialsUsed,// []{name, count} 
-			forEachProducts_countMaterialsUsedByProduct// []{countMaterial, countProduct}
 		}
 
 
